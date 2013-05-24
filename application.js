@@ -91,24 +91,30 @@ function renderIcecreamCheckbox() {
     });
 }
 
+// コントローラー：アイスクリームを移動する
+function controllerMoveIcecream(name) {
+    var ice = icecream.findById( name );
+    selectedIcecream.push( ice );
+}
+
+
+// コントローラー：チェックボックスがクリックされた時
+function controllerEventCheckbox(event) {
+    var name = event.currentTarget.name;
+  
+    // 任意のアイスクリームを、選択済みへ移動する
+    controllerMoveIcecream( name );
+  
+    // ビューの更新
+    renderSelectedIcecreamList();
+    renderIcecreamCheckbox();
+}
+
 
 // entry point
 $(function() {
 
-  
-    // checkbox の click event
-    var clickevent = function(event) {
-        var name = event.currentTarget.name;
-      
-        // 検索
-        var ice = icecream.findById( name );
-        selectedIcecream.push( ice );
-      
-        // ビューの更新
-        renderSelectedIcecreamList();
-        renderIcecreamCheckbox();
-    };
-  
-    renderIcecreamList( clickevent );
+    renderIcecreamList( controllerEventCheckbox );
+    
 });
 // EOF
