@@ -55,6 +55,11 @@ $(function() {
           
           selectedIcecream.push( ice );
           
+          // 多すぎる場合は selectedIcecream を整理する
+          if (selectedIcecream.length > 2) {
+              selectedIcecream.shift();
+          }
+          
           // ビューの更新
           updateViewIcecreamList()
       };
