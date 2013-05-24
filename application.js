@@ -36,6 +36,20 @@ function updateViewIcecreamList() {
     });
 }
 
+function updateViewIcecream() {
+    var list = $("#icecream");
+
+    $("#icecream input[type='checkbox']").each( function(index, element) {  
+        var obj = findById(selectedIcecream, element.name);
+        
+        if (obj) {
+            element.checked = true;
+        } else {
+            element.checked = false;
+        }
+    });
+}
+
 
 // entry point
 $(function() {
@@ -61,7 +75,8 @@ $(function() {
           }
           
           // ビューの更新
-          updateViewIcecreamList()
+          updateViewIcecreamList();
+          updateViewIcecream();
       };
   
       // 要素作成
