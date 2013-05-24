@@ -52,8 +52,8 @@ var selectedIcecream = {
 };
 
 
-
-function updateViewIcecreamList() {
+// ビュー：選択済みのアイスクリームを HTML へ反映する
+function renderSelectedIcecreamList() {
     var list = $("#icecream-list");
 
     list.empty(); // 一度空っぽへ
@@ -63,7 +63,21 @@ function updateViewIcecreamList() {
     });
 }
 
-function updateViewIcecream() {
+// ビュー：すべてのアイスクリームを表示する
+function renderIcecreamList( clickevent ) {
+    var base = $("#icecream");
+
+    $.each( icecream.list, function(index, element) {
+         base.append(
+             $("<li>")
+                 .append( $("<input type='checkbox'>").attr("name", element.id).click( clickevent ) )
+                 .append( $("<span>").text(element.name) )
+         );
+    });
+}
+
+// ビュー：アイスクリームの選択リスト（チェックボックス）を、最新の状態に更新する
+function renderIcecreamCheckbox() {
     var list = $("#icecream");
 
     $("#icecream input[type='checkbox']").each( function(index, element) {  
@@ -81,31 +95,20 @@ function updateViewIcecream() {
 // entry point
 $(function() {
 
-  // 最初のビューを作成する
-  var base = $("#icecream");
   
-  $.each( icecream.list, function(index, element) {
+    // checkbox の click event
+    var clickevent = function(event) {
+        var name = event.currentTarget.name;
+      
+        // 検索
+        var ice = icecream.findById( name );
+        selectedIcecream.push( ice );
+      
+        // ビューの更新
+        renderSelectedIcecreamList();
+        renderIcecreamCheckbox();
+    };
   
-      // checkbox の click event
-      var clickevent = function(event) {
-          var name = event.currentTarget.name;
-          
-          // 検索
-          var ice = icecream.findById( name );
-          selectedIcecream.push( ice );
-          
-          // ビューの更新
-          updateViewIcecreamList();
-          updateViewIcecream();
-      };
-  
-      // 要素作成
-      base.append(
-          $("<li>")
-              .append( $("<input type='checkbox'>").attr("name", element.id).click( clickevent ) )
-              .append( $("<span>").text(element.name) )
-      );
-  });
-
+    renderIcecreamList( clickevent );
 });
 // EOF
